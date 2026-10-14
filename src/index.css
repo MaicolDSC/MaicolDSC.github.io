@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* La clase dark: se activa con data-theme="dark" en <html> */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Colores como variables: cambian solas con el tema */
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+}
+
+:root {
+  --bg: #eef2f7;
+  --card: #ffffffcc;
+  --card-2: #f4f7fb;
+  --line: #d8e0ea;
+  --fg: #0e1a2b;
+  --muted: #5b6b80;
+  --accent: #0b74c9;
+  --accent-soft: #e0eefa;
+  --ok: #16a34a;
+  --dots: #b8c4d4;
+  --glow: #7cc4ff55;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #050b18; --card: #0a1324cc; --card-2: #0e1a30; --line: #1a2840;
+    --fg: #e8eef7; --muted: #8394ad; --accent: #4fb3ff; --accent-soft: #10264a;
+    --ok: #22c55e; --dots: #1b2a44; --glow: #1d4ed844; color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #050b18; --card: #0a1324cc; --card-2: #0e1a30; --line: #1a2840;
+  --fg: #e8eef7; --muted: #8394ad; --accent: #4fb3ff; --accent-soft: #10264a;
+  --ok: #22c55e; --dots: #1b2a44; --glow: #1d4ed844; color-scheme: dark;
+}
+
+/* Fondo de puntos con resplandor azul */
+body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(60rem 40rem at 10% 20%, var(--glow), transparent 60%),
+    radial-gradient(50rem 35rem at 95% 90%, var(--glow), transparent 60%),
+    radial-gradient(var(--dots) 1px, transparent 1px);
+  background-size: auto, auto, 22px 22px;
+  background-attachment: fixed;
+  color: var(--fg);
+  margin: 0;
+  transition: background-color .3s, color .3s;
+}
+
+@keyframes pulso {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 60%, transparent); }
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.pulso { animation: pulso 2.4s infinite; }
+
+@keyframes barras {
+  0%, 100% { transform: scaleY(.3); }
+  50% { transform: scaleY(1); }
+}
+.barra { animation: barras 1s ease-in-out infinite; transform-origin: bottom; }
+
+/* La mano saluda durante el primer tercio y descansa el resto del ciclo */
+@keyframes saludo {
+  0%, 35%, 100% { transform: rotate(0deg); }
+  7% { transform: rotate(16deg); }
+  14% { transform: rotate(-8deg); }
+  21% { transform: rotate(14deg); }
+  28% { transform: rotate(-4deg); }
+}
+.saludo { animation: saludo 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pulso, .barra, .saludo { animation: none; }
+}
